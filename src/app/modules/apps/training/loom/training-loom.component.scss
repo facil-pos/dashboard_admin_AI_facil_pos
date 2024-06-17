@@ -1,0 +1,37 @@
+.textRes textarea {
+  width: 100%;
+  resize: none;
+}
+
+.full-screen {
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+.card-flush {
+  max-width: 600px; /* Limita el ancho máximo del card */
+}
+
+.position-relative {
+  position: relative;
+}
+
+.top-50 {
+  top: 50%;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blinking-text {
+  animation: blink 1s infinite;
+}

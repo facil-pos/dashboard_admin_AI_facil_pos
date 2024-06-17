@@ -1,0 +1,119 @@
+<div class="container-fluid full-screen">
+  <div
+    class="card card-flush w-100 h-600 d-flex justify-content-center align-items-center"
+  >
+    <div class="card-header p-7" id="SendLink">
+      <div
+        class="w-100 d-flex justify-content-center align-items-center flex-column"
+      >
+        <h5 class="card-title">Entrenamiento con drive</h5>
+        <p class="card-text">
+          Pega el link de un archivo en Google Drive
+        </p>
+        <h6 class="mt-4">Pasos para compartir un archivo</h6>
+        <div>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">
+              1. Ve a
+              <a href="https://drive.google.com" target="_blank"
+                >Google Drive</a
+              >
+              y inicia sesión con tu cuenta de Google.
+            </li>
+            <li class="list-group-item list-group-item-dark">
+              2. Haz clic en el archivo que quieres compartir.
+            </li>
+            <li class="list-group-item list-group-item-dark">
+              3. Luego da click en compartir.
+            </li>
+            <li class="list-group-item list-group-item-dark">
+              4. En Acceso general, selecciona 'Cualquier persona con el enlace'.
+            </li>
+            <li class="list-group-item list-group-item-dark">
+              5. Haz clic derecho en copiar enlace.
+            </li>
+            <li class="list-group-item list-group-item-dark">
+              6. Pega el enlace en el formulario de esta pagina.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <form
+        class="w-100 d-flex position-relative align-items-center gap-3"
+        (ngSubmit)="onSubmit(driveForm)"
+        #driveForm="ngForm"
+        autoComplete="off"
+      >
+        <div class="form-group flex-grow-1 mb-0">
+          <label for="Link" class="form-label">Inserte link del DOC</label>
+          <input
+            type="text"
+            class="form-control form-control-solid px-15 full-width-input"
+            id="Link"
+            name="link"
+            ngModel
+            placeholder="Inserte link del DOC"
+            required
+          />
+        </div>
+        <div class="form-group flex-grow-1 mb-0">
+          <label for="videoName" class="form-label"
+            >Nombre del archivo</label
+          >
+          <input
+            type="text"
+            class="form-control form-control-solid px-15 full-width-input"
+            id="videoName"
+            name="videoName"
+            ngModel
+            placeholder="Agrega un nombre al video"
+            required
+          />
+        </div>
+        <div class="form-group mb-0">
+          <label class="form-label" style="visibility: hidden">Enviar</label>
+          <button
+            type="submit"
+            class="btn btn-icon btn-primary btn-active-light-primary w-100"
+          >
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Alerta de éxito -->
+<swal
+  #successSwal
+  title="Éxito"
+  text="El link se ha enviado correctamente."
+  icon="success"
+  [confirmButtonText]="'Aceptar'"
+></swal>
+
+<!-- Alerta de error -->
+<swal
+  #errorSwal
+  title="Error"
+  [text]="resultText"
+  icon="error"
+  [confirmButtonText]="'Aceptar'"
+></swal>
+
+<!-- Alerta de carga con swalPortal -->
+<swal
+  #loadingSwal
+  title="Cargando"
+  icon="info"
+  [showConfirmButton]="false"
+  [allowOutsideClick]="false"
+>
+  <ng-template [swalPortal]="swalTargets.content">
+    <p class="blinking-text">Por favor espera...</p>
+  </ng-template>
+</swal>

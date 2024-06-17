@@ -1,0 +1,86 @@
+<div class="container-fluid full-screen">
+  <div class="card card-flush w-100 h-100 d-flex justify-content-center align-items-center">
+    <div class="card-header p-7" id="SendLink">
+      <div class="w-100 d-flex justify-content-center align-items-center flex-column">
+        <h5 class="card-title">Entrenamiento con youtube</h5>
+        <p class="card-text">Puedes pega el link de youtube aqui para entrenar al modelo con un video de youtube</p>
+      </div>
+    </div>
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <form
+        class="w-100 d-flex position-relative align-items-center gap-3"
+        (ngSubmit)="onSubmit(driveForm)"
+        #driveForm="ngForm"
+        autoComplete="off"
+      >
+        <div class="form-group flex-grow-1 mb-0">
+          <label for="Link" class="form-label">Inserte link</label>
+          <input
+            type="text"
+            class="form-control form-control-solid px-15 full-width-input"
+            id="Link"
+            name="link"
+            ngModel
+            placeholder="Inserte link del DOC"
+            required
+          />
+        </div>
+        <div class="form-group flex-grow-1 mb-0">
+          <label for="videoName" class="form-label"
+            >Nombre del archivo</label
+          >
+          <input
+            type="text"
+            class="form-control form-control-solid px-15 full-width-input"
+            id="videoName"
+            name="videoName"
+            ngModel
+            placeholder="Agrega un nombre al video"
+            required
+          />
+        </div>
+        <div class="form-group mb-0">
+          <label class="form-label" style="visibility: hidden">Enviar</label>
+          <button
+            type="submit"
+            class="btn btn-icon btn-primary btn-active-light-primary w-100"
+          >
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Alerta de éxito -->
+<swal
+  #successSwal
+  title="Éxito"
+  text="El link se ha enviado correctamente."
+  icon="success"
+  [confirmButtonText]="'Aceptar'"
+></swal>
+
+<!-- Alerta de error -->
+<swal
+  #errorSwal
+  title="Error"
+  [text]="resultText"
+  icon="error"
+  [confirmButtonText]="'Aceptar'"
+></swal>
+
+<!-- Alerta de carga con swalPortal -->
+<swal
+  #loadingSwal
+  title="Cargando"
+  icon="info"
+  [showConfirmButton]="false"
+  [allowOutsideClick]="false"
+>
+  <ng-template [swalPortal]="swalTargets.content">
+    <p class="blinking-text">Por favor espera...</p>
+  </ng-template>
+</swal>
