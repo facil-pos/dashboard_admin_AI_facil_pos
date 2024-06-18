@@ -3,8 +3,8 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ApiService } from '../service/apiTraining.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthService, UserType } from '../../../auth/services/auth.service'
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+
 import { SwalComponent, SwalPortalTargets  } from '@sweetalert2/ngx-sweetalert2';
 
 import { checkIsActive } from '../service/checkUrl.service';
@@ -24,7 +24,16 @@ export class TrainingdriveComponent implements OnInit, OnDestroy {
   userId: number | undefined;
   username: string | undefined;
   resultText: string = 'Resultado de la consulta... ';
-  constructor(private router: Router, private changeDetectorRef: ChangeDetectorRef, public readonly swalTargets: SwalPortalTargets, private auth: AuthService, private apiService: ApiService) {}
+  driveForm: FormGroup;
+  errorStatus : boolean = false;
+  
+  constructor(
+    private fb: FormBuilder,  
+    private changeDetectorRef: ChangeDetectorRef, 
+    public readonly swalTargets: SwalPortalTargets, 
+    private auth: AuthService, 
+    private apiService: ApiService
+  ) {}
 
 
   ngOnInit(): void {
@@ -34,19 +43,33 @@ export class TrainingdriveComponent implements OnInit, OnDestroy {
         this.username = user.username;
 
         console.log('Usuario ID:', this.userId, 'Username:', this.username);
-
       }
-
     });
 
-    console.log(checkIsActive(this.router.url,'/apps/training/loom'));
-
+    this.driveForm = this.fb.group({
+      link: [
+        '',
+        [Validators.required, Validators.pattern('^(https?://)?(docs.google.com/document/d/[^/]+(/edit)?)(\\?[^\\s]*)?$')]
+      ],
+      videoName: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(50)]
+      ]
+    });
   }
 
-  onSubmit(loomForm: NgForm): void {
-    if (loomForm.valid) {
-      const link = loomForm.value.link;
-      const nombre = loomForm.value.videoName
+  get link() {
+    return this.driveForm.get('link')!;
+  }
+
+  get videoName() {
+    return this.driveForm.get('videoName')!;
+  }
+
+  onSubmit(): void {
+    if (this.driveForm.valid) {
+      const link = this.driveForm.value.link;
+      const nombre = this.driveForm.value.videoName
       console.log('Formulario enviado con el link:', link);
       this.loadingSwal.fire(); 
 
@@ -59,15 +82,19 @@ export class TrainingdriveComponent implements OnInit, OnDestroy {
           this.changeDetectorRef.detectChanges();
         },
         error => {
-          console.log('Error:', error.error.detail.response);
-          this.resultText = `Hubo un problema al enviar el link. ${error.error.detail.response}`; 
+          console.log('Error:', error);
+          const errorMessage = error.error?.detail?.response || 'Hubo un problema al enviar el link.';
+          this.resultText = `Hubo un problema al enviar el link. ${errorMessage}`; 
           this.loadingSwal.close(); 
           this.errorSwal.fire(); 
           this.changeDetectorRef.detectChanges();
         }
       );
     } else {
-      console.log('Formulario no válido');
+      this.driveForm.markAllAsTouched();
+      console.log('Formulario no válido', this.driveForm);
+      this.errorStatus = this.driveForm.status === "INVALID";
+      this.changeDetectorRef.detectChanges();
     }
   }
 

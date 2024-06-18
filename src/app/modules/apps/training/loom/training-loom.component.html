@@ -16,37 +16,86 @@
     <div
       class="card-body d-flex justify-content-center align-items-center flex-column"
     >
-    <form class="w-100 d-flex position-relative align-items-center gap-3" (ngSubmit)="onSubmit(loomForm)" #loomForm="ngForm" autoComplete="off">
-      <div class="form-group flex-grow-1 mb-0">
-        <label for="loomLink" class="form-label">Inserte link de Loom</label>
-        <input
-          type="text"
-          class="form-control form-control-solid px-15 full-width-input"
-          id="loomLink"
-          name="link"
-          ngModel
-          placeholder="Inserte link de Loom"
-          required
-        />
+      <form
+        [formGroup]="loomLinkForm"
+        (ngSubmit)="onSubmit()"
+        class="w-100 d-flex position-relative align-items-center gap-3"
+        autoComplete="off"
+      >
+        <div class="form-group flex-grow-1 mb-0">
+          <label for="loomLink" class="form-label">Inserte link de Loom</label>
+          <input
+            type="text"
+            class="form-control form-control-solid px-15 full-width-input"
+            id="loomLink"
+            formControlName="link"
+            placeholder="Inserte link de Loom"
+          />
+          <div
+            *ngIf="link.invalid && (link.dirty || link.touched)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="link.errors?.required">El enlace es requerido.</div>
+            <div *ngIf="link.errors?.pattern">
+              El enlace debe ser un link de Loom válido.
+            </div>
+          </div>
+        </div>
+        <div class="form-group flex-grow-1 mb-0">
+          <label for="videoName" class="form-label"
+            >Agrega un nombre al video</label
+          >
+          <input
+            type="text"
+            class="form-control form-control-solid px-15 full-width-input"
+            id="videoName"
+            formControlName="videoName"
+            placeholder="Agrega un nombre al video"
+          />
+          <div
+            *ngIf="videoName.invalid && (videoName.dirty || videoName.touched)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="videoName.errors?.required">
+              El nombre del video es requerido.
+            </div>
+            <div *ngIf="videoName.errors?.minlength">
+              El nombre debe tener al menos 3 caracteres.
+            </div>
+            <div *ngIf="videoName.errors?.maxlength">
+              El nombre no debe exceder los 50 caracteres.
+            </div>
+          </div>
+        </div>
+        <div class="form-group mb-0">
+          <label class="form-label" style="visibility: hidden">Enviar</label>
+          <button
+            type="submit"
+            class="btn btn-icon btn-primary btn-active-light-primary w-100"
+          >
+            Enviar
+          </button>
+        </div>
+      </form>
+
+      <div *ngIf="errorStatus">
+        <div *ngIf="loomLinkForm.get('videoName')?.errors?.required">
+          El nombre del video es requerido.
+        </div>
+        <div *ngIf="loomLinkForm.get('videoName')?.errors?.minlength">
+          El nombre debe tener al menos 3 caracteres.
+        </div>
+        <div *ngIf="loomLinkForm.get('videoName')?.errors?.maxlength">
+          El nombre no debe exceder los 50 caracteres.
+        </div>
+        <div *ngIf="loomLinkForm.get('link')?.errors?.required">
+          El enlace es requerido.
+        </div>
+        <div *ngIf="loomLinkForm.get('link')?.errors?.pattern">
+          El enlace debe ser un link de Loom válido.
+        </div>
       </div>
-      <div class="form-group flex-grow-1 mb-0">
-        <label for="videoName" class="form-label">Agrega un nombre al video</label>
-        <input
-          type="text"
-          class="form-control form-control-solid px-15 full-width-input"
-          id="videoName"
-          name="videoName"
-          ngModel
-          placeholder="Agrega un nombre al video"
-          required
-        />
-      </div>
-      <div class="form-group mb-0">
-        <label class="form-label" style="visibility: hidden;">Enviar</label>
-        <button type="submit" class="btn btn-icon btn-primary btn-active-light-primary w-100">Enviar</button>
-      </div>
-    </form>
-    
+
       <div class="textRes mt-4 w-100">
         <textarea
           class="form-control"

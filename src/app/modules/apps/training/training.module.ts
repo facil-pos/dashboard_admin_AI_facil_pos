@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { TrainingRoutingModule } from './training-routing.module';
 import { TrainingComponent } from './training.component';
 import { TrainingYoutubeComponent } from './youtube/training-youtube.component';
@@ -26,6 +26,7 @@ import {SharedModule} from "../../../_metronic/shared/shared.module";
     FormsModule,
     TrainingRoutingModule,
     SharedModule,
+    ReactiveFormsModule,
     SweetAlert2Module.forRoot(),
     NgbModalModule,
   ],

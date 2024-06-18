@@ -2,8 +2,7 @@ import { Component, ViewChild , HostBinding, OnInit, OnDestroy, ChangeDetectorRe
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ApiService } from '../service/apiTraining.service';
 import { AuthService, UserType } from '../../../auth/services/auth.service'
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { SwalComponent, SwalPortalTargets  } from '@sweetalert2/ngx-sweetalert2';
 
@@ -23,8 +22,17 @@ export class TrainingloomComponent implements OnInit, OnDestroy {
   messageSubscription: Subscription;
   userId: number | undefined;
   username: string | undefined;
-  resultText: string = 'Resultado del analisis del video... ';
-  constructor(private router: Router, private changeDetectorRef: ChangeDetectorRef, public readonly swalTargets: SwalPortalTargets, private auth: AuthService, private apiService: ApiService) {}
+  resultText: string = 'Resultado del análisis del video... ';
+  loomLinkForm: FormGroup;
+  errorStatus : boolean = false;
+
+  constructor(
+    private fb: FormBuilder,  
+    private changeDetectorRef: ChangeDetectorRef, 
+    public readonly swalTargets: SwalPortalTargets, 
+    private auth: AuthService, 
+    private apiService: ApiService
+  ) {}
 
   ngOnInit(): void {
     this.userSubscription = this.auth.currentUserSubject.subscribe((user: UserType) => {
@@ -33,18 +41,33 @@ export class TrainingloomComponent implements OnInit, OnDestroy {
         this.username = user.username;
 
         console.log('Usuario ID:', this.userId, 'Username:', this.username);
-
       }
-
     });
 
+    this.loomLinkForm = this.fb.group({
+      link: [
+        '',
+        [Validators.required, Validators.pattern('https://www.loom.com/share/.*')]
+      ],
+      videoName: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(50)]
+      ]
+    });
   }
 
-  onSubmit(loomForm: NgForm): void {
-    if (loomForm.valid) {
-      console.log(loomForm);
-      const link = loomForm.value.link;
-      const nombre = loomForm.value.videoName
+  get link() {
+    return this.loomLinkForm.get('link')!;
+  }
+
+  get videoName() {
+    return this.loomLinkForm.get('videoName')!;
+  }
+
+  onSubmit(): void {
+    if (this.loomLinkForm.valid) {
+      const link = this.loomLinkForm.value.link;
+      const nombre = this.loomLinkForm.value.videoName;
       console.log('Formulario enviado con el link:', link);
       this.loadingSwal.fire(); 
 
@@ -65,9 +88,13 @@ export class TrainingloomComponent implements OnInit, OnDestroy {
         }
       );
     } else {
-      console.log('Formulario no válido');
+      this.loomLinkForm.markAllAsTouched();
+      console.log('Formulario no válido', this.loomLinkForm);
+      this.errorStatus = this.loomLinkForm.status === "INVALID";
+      this.changeDetectorRef.detectChanges();
     }
   }
+
   ngOnDestroy(): void {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
@@ -77,4 +104,3 @@ export class TrainingloomComponent implements OnInit, OnDestroy {
     }
   }
 }
-

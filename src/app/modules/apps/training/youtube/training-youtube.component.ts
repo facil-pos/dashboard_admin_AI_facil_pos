@@ -2,7 +2,7 @@ import { Component, HostBinding, OnInit, OnDestroy, ViewChild, ChangeDetectorRef
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ApiService } from '../service/apiTraining.service';
 import { AuthService, UserType } from '../../../auth/services/auth.service'
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { SwalComponent, SwalPortalTargets  } from '@sweetalert2/ngx-sweetalert2';
 
@@ -23,8 +23,16 @@ export class TrainingYoutubeComponent implements OnInit, OnDestroy {
   userId: number | undefined;
   username: string | undefined;
   resultText: string = 'Resultado del analisis del video... ';
+  youtubeForm: FormGroup;
+  errorStatus : boolean = false;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private auth: AuthService, public readonly swalTargets: SwalPortalTargets, private apiService: ApiService) {}
+  constructor(
+    private fb: FormBuilder,  
+    private changeDetectorRef: ChangeDetectorRef, 
+    public readonly swalTargets: SwalPortalTargets, 
+    private auth: AuthService, 
+    private apiService: ApiService
+  ) {}
 
 
   ngOnInit(): void {
@@ -34,19 +42,36 @@ export class TrainingYoutubeComponent implements OnInit, OnDestroy {
         this.username = user.username;
 
         console.log('Usuario ID:', this.userId, 'Username:', this.username);
-
       }
+    });
 
+    this.youtubeForm = this.fb.group({
+      link: [
+        '',
+        [Validators.required, Validators.pattern('^(https?://)?(www.youtube.com|youtu.?be)/.+$')]
+      ],
+      videoName: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(50)]
+      ]
     });
   }
 
-  onSubmit(youtubeForm: NgForm): void {
-    if (youtubeForm.valid) {
-      const link = youtubeForm.value.link;
-      const nombre = youtubeForm.value.videoName
+  get link() {
+    return this.youtubeForm.get('link')!;
+  }
+
+  get videoName() {
+    return this.youtubeForm.get('videoName')!;
+  }
+
+  onSubmit(): void {
+    if (this.youtubeForm.valid) {
+      const link = this.youtubeForm.value.link;
+      const nombre = this.youtubeForm.value.videoName;
       console.log('Formulario enviado con el link:', link);
       this.loadingSwal.fire(); 
-      // Aquí puedes manejar el envío del formulario, por ejemplo, llamando a un servicio de API
+
       this.apiService.sendLinkYoutube(link, nombre).subscribe(
         response => {
           console.log('Respuesta del servidor:', response);
@@ -64,7 +89,10 @@ export class TrainingYoutubeComponent implements OnInit, OnDestroy {
         }
       );
     } else {
-      console.log('Formulario no válido');
+      this.youtubeForm.markAllAsTouched();
+      console.log('Formulario no válido', this.youtubeForm);
+      this.errorStatus = this.youtubeForm.status === "INVALID";
+      this.changeDetectorRef.detectChanges();
     }
   }
 
