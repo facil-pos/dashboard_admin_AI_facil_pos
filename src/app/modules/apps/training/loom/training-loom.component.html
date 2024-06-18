@@ -52,20 +52,6 @@
             formControlName="videoName"
             placeholder="Agrega un nombre al video"
           />
-          <div
-            *ngIf="videoName.invalid && (videoName.dirty || videoName.touched)"
-            class="invalid-feedback"
-          >
-            <div *ngIf="videoName.errors?.required">
-              El nombre del video es requerido.
-            </div>
-            <div *ngIf="videoName.errors?.minlength">
-              El nombre debe tener al menos 3 caracteres.
-            </div>
-            <div *ngIf="videoName.errors?.maxlength">
-              El nombre no debe exceder los 50 caracteres.
-            </div>
-          </div>
         </div>
         <div class="form-group mb-0">
           <label class="form-label" style="visibility: hidden">Enviar</label>
@@ -78,21 +64,43 @@
         </div>
       </form>
 
-      <div *ngIf="errorStatus">
-        <div *ngIf="loomLinkForm.get('videoName')?.errors?.required">
-          El nombre del video es requerido.
-        </div>
-        <div *ngIf="loomLinkForm.get('videoName')?.errors?.minlength">
-          El nombre debe tener al menos 3 caracteres.
-        </div>
-        <div *ngIf="loomLinkForm.get('videoName')?.errors?.maxlength">
-          El nombre no debe exceder los 50 caracteres.
-        </div>
-        <div *ngIf="loomLinkForm.get('link')?.errors?.required">
-          El enlace es requerido.
-        </div>
-        <div *ngIf="loomLinkForm.get('link')?.errors?.pattern">
-          El enlace debe ser un link de Loom válido.
+      <div class="d-flex flex-column">
+        <div
+          *ngIf="
+            videoName.invalid && (videoName.dirty || videoName.touched)
+          "
+          class="invalid-feedback d-flex flex-column gap-3"
+        >
+          <div
+            class="badge text-bg-danger text-light"
+            *ngIf="loomLinkForm.get('videoName')?.errors?.required"
+          >
+            El nombre del video es requerido.
+          </div>
+          <div
+            class="badge text-bg-danger text-light"
+            *ngIf="loomLinkForm.get('videoName')?.errors?.minlength"
+          >
+            El nombre debe tener al menos 3 caracteres.
+          </div>
+          <div
+            class="badge text-bg-danger text-light"
+            *ngIf="loomLinkForm.get('videoName')?.errors?.maxlength"
+          >
+            El nombre no debe exceder los 50 caracteres.
+          </div>
+          <div
+            class="badge text-bg-danger text-light"
+            *ngIf="loomLinkForm.get('link')?.errors?.required"
+          >
+            El enlace es requerido.
+          </div>
+          <div
+            class="badge text-bg-danger text-light"
+            *ngIf="loomLinkForm.get('link')?.errors?.pattern"
+          >
+            El enlace debe ser un link de loom válido.
+          </div>
         </div>
       </div>
 

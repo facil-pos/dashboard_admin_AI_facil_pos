@@ -7,9 +7,7 @@
         class="w-100 d-flex justify-content-center align-items-center flex-column"
       >
         <h5 class="card-title">Entrenamiento con drive</h5>
-        <p class="card-text">
-          Pega el link de un archivo en Google Drive
-        </p>
+        <p class="card-text">Pega el link de un archivo en Google Drive</p>
         <h6 class="mt-4">Pasos para compartir un archivo</h6>
         <div>
           <ul class="list-group">
@@ -27,7 +25,8 @@
               3. Luego da click en compartir.
             </li>
             <li class="list-group-item list-group-item-dark">
-              4. En Acceso general, selecciona 'Cualquier persona con el enlace'.
+              4. En Acceso general, selecciona 'Cualquier persona con el
+              enlace'.
             </li>
             <li class="list-group-item list-group-item-dark">
               5. Haz clic derecho en copiar enlace.
@@ -39,7 +38,9 @@
         </div>
       </div>
     </div>
-    <div class="card-body d-flex justify-content-center align-items-center flex-column">
+    <div
+      class="card-body d-flex justify-content-center align-items-center flex-column"
+    >
       <div>
         <form
           [formGroup]="driveForm"
@@ -79,22 +80,6 @@
               formControlName="videoName"
               placeholder="Inserte link del DOC"
             />
-            <div
-              *ngIf="
-                videoName.invalid && (videoName.dirty || videoName.touched)
-              "
-              class="invalid-feedback"
-            >
-              <div *ngIf="videoName.errors?.required">
-                El nombre del video es requerido.
-              </div>
-              <div *ngIf="videoName.errors?.minlength">
-                El nombre debe tener al menos 3 caracteres.
-              </div>
-              <div *ngIf="videoName.errors?.maxlength">
-                El nombre no debe exceder los 50 caracteres.
-              </div>
-            </div>
           </div>
           <div class="form-group mb-0">
             <label class="form-label" style="visibility: hidden">Enviar</label>
@@ -107,27 +92,48 @@
           </div>
         </form>
       </div>
-      <div *ngIf="errorStatus">
-        <div *ngIf="driveForm.get('videoName')?.errors?.required">
-          El nombre del video es requerido.
-        </div>
-        <div *ngIf="driveForm.get('videoName')?.errors?.minlength">
-          El nombre debe tener al menos 3 caracteres.
-        </div>
-        <div *ngIf="driveForm.get('videoName')?.errors?.maxlength">
-          El nombre no debe exceder los 50 caracteres.
-        </div>
-        <div *ngIf="driveForm.get('link')?.errors?.required">
-          El enlace es requerido.
-        </div>
-        <div *ngIf="driveForm.get('link')?.errors?.pattern">
-          El enlace debe ser un link de google dirive válido.
+      <div class="d-flex flex-column">
+        <div
+          *ngIf="
+            videoName.invalid && (videoName.dirty || videoName.touched)
+          "
+          class="invalid-feedback d-flex flex-column gap-3"
+        >
+          <div
+            class="badge text-bg-danger"
+            *ngIf="driveForm.get('videoName')?.errors?.required"
+          >
+            El nombre del video es requerido.
+          </div>
+          <div
+            class="badge text-bg-danger"
+            *ngIf="driveForm.get('videoName')?.errors?.minlength"
+          >
+            El nombre debe tener al menos 3 caracteres.
+          </div>
+          <div
+            class="badge text-bg-danger"
+            *ngIf="driveForm.get('videoName')?.errors?.maxlength"
+          >
+            El nombre no debe exceder los 50 caracteres.
+          </div>
+          <div
+            class="badge text-bg-danger"
+            *ngIf="driveForm.get('link')?.errors?.required"
+          >
+            El enlace es requerido.
+          </div>
+          <div
+            class="badge text-bg-danger"
+            *ngIf="driveForm.get('link')?.errors?.pattern"
+          >
+            El enlace debe ser un link de google dirive válido.
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 
 <!-- Alerta de éxito -->
 <swal
