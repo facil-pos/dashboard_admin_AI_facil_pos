@@ -51,7 +51,7 @@ export class TrainingloomComponent implements OnInit, OnDestroy {
       ],
       videoName: [
         '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(50)]
+        [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-z ]+$')]
       ]
     });
   }

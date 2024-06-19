@@ -23,24 +23,15 @@
         >
           <div class="form-group flex-grow-1 mb-0">
             <label for="loomLink" class="form-label"
-              >Inserte link de Loom</label
+              >Inserte link de Youtube</label
             >
             <input
               type="text"
               class="form-control form-control-solid px-15 full-width-input"
               id="loomLink"
               formControlName="link"
-              placeholder="Inserte link de Loom"
+              placeholder="Inserte link de Youtube"
             />
-            <div
-              *ngIf="link.invalid && (link.dirty || link.touched)"
-              class="invalid-feedback"
-            >
-              <div *ngIf="link.errors?.required">El enlace es requerido.</div>
-              <div *ngIf="link.errors?.pattern">
-                El enlace debe ser un link de Loom válido.
-              </div>
-            </div>
           </div>
           <div class="form-group flex-grow-1 mb-0">
             <label for="videoName" class="form-label"
@@ -89,6 +80,9 @@
             *ngIf="youtubeForm.get('videoName')?.errors?.maxlength"
           >
             El nombre no debe exceder los 50 caracteres.
+          </div>
+          <div class="badge text-bg-danger" *ngIf="videoName.errors?.pattern">
+            El nombre solo puede contener letras minúsculas.
           </div>
           <div
             class="badge text-bg-danger text-light"

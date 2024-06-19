@@ -94,9 +94,7 @@
       </div>
       <div class="d-flex flex-column">
         <div
-          *ngIf="
-            videoName.invalid && (videoName.dirty || videoName.touched)
-          "
+          *ngIf="videoName.invalid && (videoName.dirty || videoName.touched)"
           class="invalid-feedback d-flex flex-column gap-3"
         >
           <div
@@ -110,6 +108,9 @@
             *ngIf="driveForm.get('videoName')?.errors?.minlength"
           >
             El nombre debe tener al menos 3 caracteres.
+          </div>
+          <div class="badge text-bg-danger" *ngIf="videoName.errors?.pattern">
+            El nombre solo puede contener letras minúsculas.
           </div>
           <div
             class="badge text-bg-danger"

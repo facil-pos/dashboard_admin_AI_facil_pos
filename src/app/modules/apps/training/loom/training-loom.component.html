@@ -95,6 +95,9 @@
           >
             El enlace es requerido.
           </div>
+          <div class="badge text-bg-danger" *ngIf="videoName.errors?.pattern">
+            El nombre solo puede contener letras minúsculas.
+          </div>
           <div
             class="badge text-bg-danger text-light"
             *ngIf="loomLinkForm.get('link')?.errors?.pattern"
