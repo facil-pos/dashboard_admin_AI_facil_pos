@@ -57,6 +57,25 @@ export class DocumentsDetailsComponent implements OnInit {
             },
           },
           {
+            title: 'Link',
+            data: 'id',
+            render: function (data, type, full) {
+              const colorClasses = ['success', 'info', 'warning', 'danger'];
+              const randomColorClass =
+                colorClasses[Math.floor(Math.random() * colorClasses.length)];
+
+              const Label = `
+              <div class="label fs-3 bg-light-${randomColorClass} text-${randomColorClass}">
+                <a href=${data} target="_blank"> ${data} </a>
+              </div>
+            `;
+
+              return `
+              ${Label}
+            `;
+            },
+          },
+          {
             title: 'Tipo',
             data: 'Type',
             render: function (data, type, row) {
