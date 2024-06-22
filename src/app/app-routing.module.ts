@@ -9,6 +9,10 @@ export const routes: Routes = [
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
+    path : 'policy',
+    loadChildren : () => import('../app/privacy-policy/privacy-policy.module').then((m) => m.PrivacyPolicyModule)
+  },
+  {
     path: 'error',
     loadChildren: () =>
       import('./modules/errors/errors.module').then((m) => m.ErrorsModule),

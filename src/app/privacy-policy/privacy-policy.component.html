@@ -1,0 +1,66 @@
+<div class="privacy-policy-container">
+  <div class="language-selector">
+    <label for="language-select">Idioma:</label>
+    <select id="language-select" (change)="onLanguageChange($event)">
+      <option value="es">Español</option>
+      <option value="en">English</option>
+      <!-- Agrega más opciones de idioma según sea necesario -->
+    </select>
+  </div>
+
+  <div class="privacy-policy">
+    <h1>{{ content.title }}</h1>
+    <p>{{ content.lastUpdate }}</p>
+
+    <h2>{{ content.introduction }}</h2>
+    <p>{{ content.introductionText }}</p>
+
+    <h2>{{ content.information }}</h2>
+    <p>
+      <strong>{{ content.oauth }}</strong> {{ content.oauthText }}
+    </p>
+    <p>
+      <strong>{{ content.chatHistory }}</strong> {{ content.chatHistoryText }}
+    </p>
+
+    <h2>{{ content.useOfInfo }}</h2>
+    <p>{{ content.useOfInfoText }}</p>
+    <ul>
+      <li>{{ content.improveServices }}</li>
+      <li>{{ content.analyzeQueries }}</li>
+    </ul>
+
+    <h2>{{ content.storage }}</h2>
+    <p>
+      <strong>{{ content.storageText }}</strong> {{ content.storageDetail }}
+    </p>
+    <p>
+      <strong>{{ content.security }}</strong> {{ content.securityText }}
+    </p>
+
+    <h2>{{ content.userRights }}</h2>
+    <p>{{ content.userRightsText }}</p>
+    <ul>
+      <li>
+        {{ content.email }}
+        <a href="mailto:devmoresales&#64;facilpos.co"
+          >devmoresales&#64;facilpos.co</a
+        >
+      </li>
+    </ul>
+
+    <h2>{{ content.changes }}</h2>
+    <p>{{ content.changesText }}</p>
+
+    <h2>{{ content.contact }}</h2>
+    <p>{{ content.contactText }}</p>
+    <ul>
+      <li>
+        {{ content.email }}
+        <a href="mailto:devmoresales&#64;facilpos.co"
+          >devmoresales&#64;facilpos.co</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
