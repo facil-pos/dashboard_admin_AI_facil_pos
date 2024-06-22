@@ -19,7 +19,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" />
 
     <!-- Dialogflow -->
-    <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+    <link
+      rel="stylesheet"
+      href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css"
+    />
     <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
   </head>
 
@@ -48,6 +51,51 @@
       }
     </script>
     <!--end::Theme mode setup on page load-->
+     <!-- start::Dialogflow -->
+  <script>
+    document.addEventListener("df-messenger-loaded", function (event) {
+      const chatBox = document.querySelector("df-messenger");
+      const welcomeMessageKey = 'welcomeMessageShown';
+
+      // Check if the welcome message has already been shown
+      if (!localStorage.getItem(welcomeMessageKey)) {
+        chatBox.renderCustomText("Hola, ¿en qué puedo ayudarte hoy?");
+        localStorage.setItem(welcomeMessageKey, 'true');
+      }
+
+
+      // Wait for 10 seconds before showing the message
+      setTimeout(() => {
+        const interval = setInterval(() => {
+          const chatBubble = chatBox.shadowRoot.querySelector('div'); // Access shadow DOM to get chat bubble
+          console.log('Burbuja1',chatBox.shadowRoot);
+          if (chatBubble) {
+            console.log('Burbuja',chatBubble);
+            clearInterval(interval); // Stop checking once the chat bubble is found
+
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = 'Hola';
+            messageDiv.style.position = 'absolute';
+            messageDiv.style.bottom = '90px'; // Adjust position as needed
+            messageDiv.style.right = '46px';
+            messageDiv.style.backgroundColor = '#FFF';
+            messageDiv.style.padding = '8px';
+            messageDiv.style.borderRadius = '4px';
+            messageDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            document.body.appendChild(messageDiv);
+
+            chatBubble.addEventListener('click', (e) => {
+              console.log(e);
+              if (e) {
+                messageDiv.remove();
+              }
+            });
+          }
+        }, 100); // Check every 100 milliseconds
+      }, 10000); // Initial wait of 10 seconds
+    });
+  </script>
+  <!-- end::Dialogflow -->
     <div id="splash-screen" class="splash-screen">
       <img src="./assets/media/logos/default-small.svg" alt="Metronic logo" />
       <span>Loading ...</span>
