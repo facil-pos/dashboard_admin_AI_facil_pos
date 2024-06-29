@@ -1,18 +1,21 @@
 <df-messenger
-  oauth-client-id="170270142271-2an85e6p536dqeugnle6de65de0jg3bd.apps.googleusercontent.com"
   location="us-central1"
   project-id="propane-shell-426313-r2"
   agent-id="880f9864-475c-4505-9236-1f71e835651a"
   language-code="es"
   max-query-length="-1"
 >
-  <df-messenger-chat-bubble chat-title="Agente de soporte">
-  </df-messenger-chat-bubble>
+  <df-messenger-chat-bubble chat-title="Soporte"> </df-messenger-chat-bubble>
 </df-messenger>
 <style>
   df-messenger {
     z-index: 999;
     position: fixed;
+    --df-messenger-font-color: #000;
+    --df-messenger-font-family: Roboto;
+    --df-messenger-chat-background: #f3f6fc;
+    --df-messenger-message-user-background: #d3e3fd;
+    --df-messenger-message-bot-background: #fff;
     bottom: 16px;
     right: 16px;
   }
